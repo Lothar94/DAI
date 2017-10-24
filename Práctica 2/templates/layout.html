@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='normalize.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <meta name="Autor" content="Lothar Soto Palma">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header class="pure-menu pure-menu-horizontal">
+      <h2 class="pure-menu-heading custom-heading">DAI</h2>
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="/" class="pure-menu-link custom-li">Inicio</a></li>
+        <li class="pure-menu-item"><a href="/about" class="pure-menu-link custom-li">Acerca</a></li>
+      </ul>
+    </header>
+    <section class="content">
+      {% block body %}
+      {% endblock %}
+    </section>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Índice{% endblock %}
+{% block body %}
+  <article>
+    <h2>Ejercicio 1: Imágenes estáticas</h2>
+    <hr>
+    <p>Para que se pueda servir contenido estático, flask hace uso de un
+    directorio específico llamado "/static". A través de los templates de
+    jinja podemos acceder a los mismos haciendo uso de la función url_for(dir,
+    file).</p>
+    <div class="img-set">
+      <img class="pure-img" src="{{ url_for('static', filename='rick1.jpg')}}" width="200" height="200">
+      <img class="pure-img" src="{{ url_for('static', filename='mandelbrot.png')}}" width="200" height="200">
+      <img class="pure-img" src="{{ url_for('static', filename='rick2.jpg')}}" width="200" height="200">
+    </div>
+    <h2>Ejercicio 2: Manejo de urls</h2>
+    <hr>
+    <p>Para el manejo de urls se ha tenido en cuenta dos posibilidades,
+    la posibilidad de que se quiera acceder a la parte de la web de un usuario
+    en cuestión, y la posibilidad de que se pueda introducir mediante un form
+    el nombre de un usuario y tratarlo mediante una petición de tipo GET.</p>
+    <p>Podemos acceder a la web creada para los usuarios usando algunos de los
+    siguientes url:</p>
+    <ul>
+      <li><a href="/user/usuario1">/user/usuario1</a></li>
+      <li><a href="/user/usuario2">/user/usuario2</a></li>
+      <li><a href="/user/usuario3">/user/usuario3</a></li>
+    </ul>
+    <p>Podemos hacer uso de una función que obtiene a traves de un formulario
+    get el usuario y renderiza la web del usuario en cuestión.</p>
+    <form action="/user_get" class="pure-form">
+      <label>Username:</label>
+      <input type="username" name="username">
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+    <h2>Ejercicio 3: Imagenes Dinámicas Binarias</h2>
+    <hr>
+    <p>Para este apartado hemos supuesto nuestra web quiere guardar en memoria
+    una imagen generada en ejecución y servirla en función de las peticiones
+    realizadas a partir de ciertos datos de entrada. Hemos creado una función
+    que gestiona dicha petición y guarda en memoria la imagen generada, haciendo
+    uso de las librerias base64 e io. Además se han añadido una cache para cuando
+    las imagenes ya han sido generadas recientemente y además un control de la
+    cache que elimina las imágenes con 1 día o más de antigüedad.</p>
+    <form action="/mandelbrot" class="pure-form">
+      <label>x1:</label>
+      <input type="x1" name="x1" value="-2">
+      <br>
+      <label>x2:</label>
+      <input type="x2" name="x2" value="-2">
+      <br>
+      <label>y1:</label>
+      <input type="y1" name="y1" value="1">
+      <br>
+      <label>y2:</label>
+      <input type="y2" name="y2" value="1">
+      <br>
+      <label>Paleta de colores:</label>
+      <input class="palette-input" type="palette" name="palette" value="(88,140,115), (242,227,148), (242,174,114), (217,100,89), (140,70,70)">
+      <br>
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+    <h2>Ejercicio 4: Imagenes Dinámicas Vectoriales</h2>
+    <hr>
+    <p>Se ha añadido un módulo que aporta determinadas funciones para definir
+    formas muy concretas de forma aleatoria y toma un número de elementos aleatorio.
+    Podemos acceder a el archivo svg generado de a través del siguiente boton:</p>
+    <form action="/svg" class="pure-form">
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+  </article>
+{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='normalize.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <meta name="Autor" content="Lothar Soto Palma">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <div class="pure-menu pure-menu-horizontal">
+        <img class="pure-menu-heading logo" src="{{ url_for('static', filename='rick1.jpg') }}" width="100" height="100">
+        <h2 class="pure-menu-heading custom-heading">DAI</h2>
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item"><a href="/" class="pure-menu-link custom-li">Inicio</a></li>
+          <li class="pure-menu-item"><a href="/about" class="pure-menu-link custom-li">Acerca</a></li>
+          {% if username %}
+            <li class="pure-menu-item"><a href="/user_info" class="pure-menu-link custom-li">Datos de usuario</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      {% if not username %}
+        <form class="pure-form pure-form-stacked custom-heading" method="post" action="/login">
+            <fieldset>
+                <label for="username">Username</label>
+                <input name="username" placeholder="Username">
+
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Password">
+
+                <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+            </fieldset>
+        </form>
+      {% else %}
+        <form class="pure-form pure-form-stacked custom-heading" action="/logout">
+            <fieldset>
+                <br>
+                <label>Bienvenido {{username}}</label>
+                <button type="submit" class="pure-button pure-button-primary">Logout</button>
+            </fieldset>
+        </form>
+      {% endif %}
+    </header>
+    <div class="pure-g">
+    <aside class="pure-u-1-8">
+      <div class="pure-menu custom-restricted-width custom-column">
+        <h3 class="pure-menu-heading">Prácticas</h3>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="#pr1" class="pure-menu-link">Práctica 2</a></li>
+            <li class="pure-menu-item"><a href="#pr2" class="pure-menu-link">Práctica 3</a></li>
+        </ul>
+        <h3 class="pure-menu-heading">Historial</h3>
+        <ul class="pure-menu-list">
+          {% for link in historial %}
+            <li class="pure-menu-item"><a href="{{link}}" class="pure-menu-link">{{ link[0:15] }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+    <section class="pure-u-7-8">
+      <div class="content">
+      {% block body %}
+      {% endblock %}
+      </div>
+    </section>
+  </div>
+    <hr>
+    <footer><p>© Lothar Soto Palma</p></footer>
+  </body>
+</html>

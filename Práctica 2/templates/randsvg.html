@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Índice{% endblock %}
+{% block body %}
+  <article>
+    <h2>Ejercicio 4: Imagenes Dinámicas Vectorizadas</h2>
+    <hr>
+    <p>Resultado:</p>
+    <div class="svg-div">
+      {{ img|safe }}
+    </div>
+    <ul>
+      <li><a href="/svg">Recargar</a></li>
+      <li><a href="/">Volver atras</a></li>
+    </ul>
+  </article>
+{% endblock %}

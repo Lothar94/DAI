@@ -1,0 +1,62 @@
+body {
+  background-color: #F6F6F6;
+}
+
+header {
+  background-color: #2B2B2B;
+  border-bottom: 4px solid #de870d;
+}
+
+.content {
+  margin: 0% 10%;
+  padding: 1% 2%;
+}
+
+.custom-heading {
+  color: white;
+}
+
+.custom-li {
+  color: white;
+}
+
+.custom-li:hover {
+  background-color: gray;
+  border-radius: 1%;
+}
+
+p {
+  margin: 1% 3%;
+}
+
+img {
+	border-radius: 5%;
+	display: block;
+	margin: 1% auto;
+}
+
+form {
+  text-align: center;
+}
+
+input {
+  margin: 1% 0%;
+  height: 26px;
+}
+
+.palette-input {
+  width: 100%;
+}
+
+.img-set {
+	display: flex;
+}
+
+.svg-div {
+  border-radius: 5%;
+  text-align: center;
+}
+
+footer{
+  padding: 1%;
+}
