@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}Restaurantes{% endblock %}
+{% block body %}
+  <article>
+    <form class="pure-form" action="/restaurants">
+        <fieldset>
+            <label for="cuisine">Busqueda por Cocina</label>
+            <input name="cuisine" placeholder="Cocina">
+
+            <button type="submit" class="pure-button pure-button-primary">Buscar</button>
+        </fieldset>
+    </form>
+    <form class="pure-form" action="/restaurants">
+        <fieldset>
+            <label for="name">Busqueda por Nombre</label>
+            <input name="name" placeholder="Nombre">
+
+            <button type="submit" class="pure-button pure-button-primary">Buscar</button>
+        </fieldset>
+    </form>
+    <form class="pure-form" action="/restaurants">
+        <fieldset>
+            <label for="zip">Busqueda por Código Postal</label>
+            <input name="zip" placeholder="ZIP">
+
+            <button type="submit" class="pure-button pure-button-primary">Buscar</button>
+        </fieldset>
+    </form>
+    <form class="pure-form" action="/restaurants">
+        <fieldset>
+            <label for="address">Busqueda por Dirección</label>
+            <br>
+            <label for="zip">Código Postal:</label>
+            <input name="zip" placeholder="ZIP">
+            <br>
+            <label for="zip">Calle:</label>
+            <input name="street" placeholder="Calle">
+            <br>
+            <label for="number">Número</label>
+            <input name="number" placeholder="Número">
+            <br>
+            <button type="submit" class="pure-button pure-button-primary">Buscar</button>
+        </fieldset>
+    </form>
+    <ul>
+      {% for doc in cursor %}
+        <li>{{ doc }}</li>
+      {% endfor %}
+    </ul>
+  </article>
+{% endblock %}

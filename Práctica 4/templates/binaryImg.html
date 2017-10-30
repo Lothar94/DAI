@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Índice{% endblock %}
+{% block body %}
+  <article>
+    <h2>Ejercicio 3: Imagenes Dinámicas Binarias</h2>
+    <hr>
+    <form action="/mandelbrot" class="pure-form">
+      <label>x1:</label>
+      <input type="x1" name="x1" value="-2">
+      <br>
+      <label>x2:</label>
+      <input type="x2" name="x2" value="-2">
+      <br>
+      <label>y1:</label>
+      <input type="y1" name="y1" value="1">
+      <br>
+      <label>y2:</label>
+      <input type="y2" name="y2" value="1">
+      <br>
+      <label>Paleta de colores:</label>
+      <input class="palette-input" type="palette" name="palette" value="(88,140,115), (242,227,148), (242,174,114), (217,100,89), (140,70,70)">
+      <br>
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+    <p>Resultado:</p>
+    <img src = "data:image/png;base64,{{ img }}">
+    <a href="/">Volver atras</a>
+  </article>
+{% endblock %}
