@@ -1,51 +1,125 @@
 {% extends "layout.html" %}
 {% block title %}Restaurantes{% endblock %}
 {% block body %}
-  <article>
-    <form class="pure-form" action="/restaurants">
+  <script>
+    function show_cuisine_form(){
+      document.getElementById("cuisine").style.display = "block";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_name_form(){
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "block";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_postal_form(){
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "block";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_address_form(){
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "block";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_borough_form(){
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "block";
+    }
+
+    window.onload = function(){
+      show_cuisine_form()
+    }
+  </script>
+  <article onload="show_cuisine_form()">
+    <h2>Consulta de restaurantes</h2>
+    <div class="button_find_panel">
+      <h3>Tipos de Búsquedas</h3>
+      <button class="pure-button pure-button-primary" onclick="show_cuisine_form()">Cocina</button>
+      <button class="pure-button pure-button-primary" onclick="show_borough_form()">Barrio</button>
+      <button class="pure-button pure-button-primary" onclick="show_name_form()">Nombre</button>
+      <button class="pure-button pure-button-primary" onclick="show_postal_form()">Código Postal</button>
+      <button class="pure-button pure-button-primary" onclick="show_address_form()">Dirección</button>
+    </div>
+
+    <form class="pure-form" id="cuisine" action="/restaurants/cuisine">
         <fieldset>
-            <label for="cuisine">Busqueda por Cocina</label>
+            <label for="cuisine">Busqueda por Cocina: </label>
             <input name="cuisine" placeholder="Cocina">
 
             <button type="submit" class="pure-button pure-button-primary">Buscar</button>
         </fieldset>
     </form>
-    <form class="pure-form" action="/restaurants">
+    <form class="pure-form" id="borough" action="/restaurants/borough">
         <fieldset>
-            <label for="name">Busqueda por Nombre</label>
+            <label for="borough">Busqueda por Barrio: </label>
+            <input name="borough" placeholder="Barrio">
+
+            <button type="submit" class="pure-button pure-button-primary">Buscar</button>
+        </fieldset>
+    </form>
+    <form class="pure-form" id="name" action="/restaurants/name">
+        <fieldset>
+            <label for="name">Busqueda por Nombre: </label>
             <input name="name" placeholder="Nombre">
 
             <button type="submit" class="pure-button pure-button-primary">Buscar</button>
         </fieldset>
     </form>
-    <form class="pure-form" action="/restaurants">
+    <form class="pure-form" id="postal" action="/restaurants/zip">
         <fieldset>
-            <label for="zip">Busqueda por Código Postal</label>
+            <label for="zip">Busqueda por Código Postal: </label>
             <input name="zip" placeholder="ZIP">
 
             <button type="submit" class="pure-button pure-button-primary">Buscar</button>
         </fieldset>
     </form>
-    <form class="pure-form" action="/restaurants">
+    <form class="pure-form" id="address" action="/restaurants/address">
         <fieldset>
             <label for="address">Busqueda por Dirección</label>
             <br>
             <label for="zip">Código Postal:</label>
             <input name="zip" placeholder="ZIP">
             <br>
-            <label for="zip">Calle:</label>
+            <label for="street">Calle:</label>
             <input name="street" placeholder="Calle">
             <br>
-            <label for="number">Número</label>
+            <label for="number">Número:</label>
             <input name="number" placeholder="Número">
             <br>
             <button type="submit" class="pure-button pure-button-primary">Buscar</button>
         </fieldset>
     </form>
-    <ul>
+    <table class="pure-table custom-table">
+      <tr>
+        <th>Nombre</th>
+        <th>Cocina</th>
+        <th>Dirección</th>
+        <th>Barrio</th>
+      </tr>
       {% for doc in cursor %}
-        <li>{{ doc }}</li>
+        <tr>
+          <td>{{ doc["name"] }}</td>
+          <td>{{ doc["cuisine"] }}</td>
+          <td>{{ doc["address"]["street"] }}, {{ doc["address"]["building"] }}, {{ doc["address"]["zipcode"] }}</td>
+          <td>{{ doc["borough"] }}</td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
   </article>
 {% endblock %}

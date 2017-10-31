@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='normalize.css')}}">
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta name="Autor" content="Lothar Soto Palma">
     <title>{% block title %}{% endblock %}</title>
@@ -45,7 +46,7 @@
       {% endif %}
     </header>
     <div class="pure-g">
-    <aside class="pure-u-1-8">
+    <aside class="pure-u-1 pure-u-md-1-8">
       <div class="pure-menu custom-restricted-width custom-column">
         <h3 class="pure-menu-heading">Prácticas</h3>
         <ul class="pure-menu-list">
@@ -60,7 +61,7 @@
         </ul>
       </div>
     </aside>
-    <section class="pure-u-7-8">
+    <section class="pure-u-1 pure-u-md-7-8">
       <div class="content">
       {% block body %}
       {% endblock %}

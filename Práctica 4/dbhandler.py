@@ -9,24 +9,17 @@ class RestaurantsDBHandler(object):
         self.client = MongoClient()
         self.db = self.client.test.restaurants
 
-    def find_borough(self, borough):
-        cursor = self.db.find({"borough": borough})
-        return cursor
-
-    def find_cuisine(self, cuisine):
-        cursor = self.db.find({"cuisine": cuisine})
-        return cursor
-
-    def find_name(self, name):
-        cursor = self.db.find({"name": name})
+    def find_restaurant(self, key, value):
+        cursor = self.db.find({key: value})
         return cursor
 
     def find_ZIPcode(self, ZIPcode):
-        cursor = self.db.find({"address":{ "zipcode": ZIPcode}})
+        print(ZIPcode)
+        cursor = self.db.find({"address.zipcode": ZIPcode})
         return cursor
 
     def find_address(self, street, building, ZIPcode):
-        cursor = self.db.find({"address":{ "street": street, "building": building, "zipcode": ZIPcode}})
+        cursor = self.db.find({"address.street": street, "address.building": building, "address.zipcode": ZIPcode})
         return cursor
 
 RestaurantsHandler = RestaurantsDBHandler()
