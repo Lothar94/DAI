@@ -1,60 +1,44 @@
 body {
-  background-color: #F6F6F6;
+    background-color: rgb(235, 235, 235);
 }
 
 header {
-  background-color: #2B2B2B;
-  border-bottom: 4px solid #de870d;
-	display: flex;
+    width: 100%;
+    background-color: rgb(43, 119, 108);
+    align-items: center;
+    justify-content: center;
 }
 
-header div {
-	margin-top: 20px;
+.custom-heading, .heading-li, .heading-a {
+    color: white;
 }
 
-header form {
-  margin: 0 5%;
-	float: right;
+.heading-a:hover {
+    background-color: rgb(87, 185, 178);
+}
+
+.heading-form {
+    color: white;
+    margin: auto auto auto 15%;
+}
+
+.heading-form li {
+    display: inline-block;
 }
 
 .logo {
-  border-radius: 100%;
-}
-
-.content {
-  margin: 0% 10%;
-  padding: 1% 2%;
-}
-
-.custom-heading {
-  color: white;
+	width: 10%;
+	border-radius: 100%;
 }
 
 .custom-column {
-  margin: 20%;
+  margin: 5%;
   color: black;
 }
 
-.custom-li {
-  color: white;
-}
-
-.custom-li:hover {
-  background-color: gray;
-  border-radius: 1%;
-}
-
-.button_find_panel {
-  text-align: center;
-}
-
-.custom-table {
-  margin: 0 auto;
-}
-
-.custom-table th{
-  background-color: #a09ea7;
-  color: white;
+.content {
+	background: white;
+	padding: 1% 5%;
 }
 
 p {
@@ -89,13 +73,28 @@ input {
   text-align: center;
 }
 
+svg {
+	width: 50%;
+	height: 500px;
+}
+
 footer{
   margin: 0% 10%;
   padding: 1% 2%;
 }
 
-@media screen and (max-width: 500px){
-  aside{
-    display: none;
+@media screen and (max-width: 48em) {
+
+    .heading-form {
+        margin: 0
+    }
+	
+	.custom-aside *{
+		display:inline-block;
+	}
+	
+	  .img-set{
+    display: block;
   }
 }
+

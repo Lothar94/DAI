@@ -34,7 +34,7 @@ def random_ellipse():
     )
 
 def random_svg():
-    svg = "<svg width=\"500\" height=\"500\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
+    svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
     items = random.randint(1,150)
 
     typesOfItems = [random_rectangle, random_line, random_ellipse]
