@@ -88,13 +88,16 @@ footer{
     .heading-form {
         margin: 0
     }
-	
+
 	.custom-aside *{
 		display:inline-block;
 	}
-	
+
 	  .img-set{
     display: block;
   }
-}
 
+  .resize {
+    font-size: 12px;
+  }
+}

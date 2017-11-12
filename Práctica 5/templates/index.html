@@ -1,0 +1,194 @@
+{% extends "layout.html" %}
+{% block title %}Índice{% endblock %}
+
+{% block body %}
+  <script>
+    var fontfamily = false;
+    var fontsize = 0;
+    var inverted = false;
+    var asidehide = false;
+
+    $(document).ready(function(){
+      $("#font-family").click(function(){
+        if (fontfamily){
+          $("*").css('font-family', 'sans-serif');
+          fontfamily = false;
+        } else{
+          $("*").css('font-family', 'Futura');
+          fontfamily = true;
+        }
+      });
+
+      $("#font-size").click(function(){
+          fontsize += 1;
+          $("*").css('font-size', parseInt($("*").css('font-size'))+fontsize);
+      });
+
+      $("#invert-colors").click(function(){
+          if (inverted){
+            $("*").css('filter', 'invert(0%)');
+            inverted = false;
+          } else{
+            $("*").css('filter', 'invert(100%)');
+            inverted = true;
+          }
+      });
+
+      $("#hide-aside").click(function(){
+        if (asidehide){
+          $("section").addClass("pure-u-md-7-8")
+          $("aside").fadeIn();
+          asidehide = false;
+        } else{
+          $("section").removeClass("pure-u-md-7-8")
+          $("aside").hide();
+          asidehide = true;
+        }
+      });
+    });
+  </script>
+  <div>
+    <h3>Cambios de estilos con Jquery</h3>
+    <button id = "font-family" class="pure-button pure-button-primary">Font-Family</button>
+    <button id = "font-size" class="pure-button pure-button-primary">Font-size</button>
+    <button id = "invert-colors" class="pure-button pure-button-primary">Invert-Colors</button>
+    <button id = "hide-aside" class="pure-button pure-button-primary">Hide-aside</button>
+  </div>
+  <article>
+    <h1 id="pr1">Práctica 2</h1>
+    <h2>Ejercicio 1: Imágenes estáticas</h2>
+    <hr>
+    <p>Para que se pueda servir contenido estático, flask hace uso de un
+    directorio específico llamado "/static". A través de los templates de
+    jinja podemos acceder a los mismos haciendo uso de la función url_for(dir,
+    file).</p>
+    <div class="img-set">
+      <img class="pure-img" src="{{ url_for('static', filename='rick1.jpg')}}" width="200" height="200">
+      <img class="pure-img" src="{{ url_for('static', filename='mandelbrot.png')}}" width="200" height="200">
+      <img class="pure-img" src="{{ url_for('static', filename='rick2.jpg')}}" width="200" height="200">
+    </div>
+    <h2>Ejercicio 2: Manejo de urls</h2>
+    <hr>
+    <p>Para el manejo de urls se ha tenido en cuenta dos posibilidades,
+    la posibilidad de que se quiera acceder a la parte de la web de un usuario
+    en cuestión, y la posibilidad de que se pueda introducir mediante un form
+    el nombre de un usuario y tratarlo mediante una petición de tipo GET.</p>
+    <p>Podemos acceder a la web creada para los usuarios usando algunos de los
+    siguientes url:</p>
+    <ul>
+      <li><a title="Usuario 1" href="/user/usuario1">/user/usuario1</a></li>
+      <li><a title="Usuario 2" href="/user/usuario2">/user/usuario2</a></li>
+      <li><a title="Usuario 3" href="/user/usuario3">/user/usuario3</a></li>
+    </ul>
+    <p>Podemos hacer uso de una función que obtiene a traves de un formulario
+    get el usuario y renderiza la web del usuario en cuestión.</p>
+    <form action="/user_get" class="pure-form">
+      <label>Username:</label>
+      <input type="username" name="username">
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+    <h2>Ejercicio 3: Imágenes Dinámicas Binarias</h2>
+    <hr>
+    <p>Para este apartado hemos supuesto nuestra web quiere guardar en memoria
+    una imagen generada en ejecución y servirla en función de las peticiones
+    realizadas a partir de ciertos datos de entrada. Hemos creado una función
+    que gestiona dicha petición y guarda en memoria la imagen generada, haciendo
+    uso de las librerias base64 e io. Además se han añadido una cache para cuando
+    las imagenes ya han sido generadas recientemente y además un control de la
+    cache que elimina las imágenes con 1 día o más de antigüedad.</p>
+    <form action="/mandelbrot" class="pure-form">
+      <label>x1:</label>
+      <input type="x1" name="x1" value="-2">
+      <br>
+      <label>x2:</label>
+      <input type="x2" name="x2" value="-2">
+      <br>
+      <label>y1:</label>
+      <input type="y1" name="y1" value="1">
+      <br>
+      <label>y2:</label>
+      <input type="y2" name="y2" value="1">
+      <br>
+      <label>Paleta de colores:</label>
+      <input class="palette-input" type="palette" name="palette" value="(88,140,115), (242,227,148), (242,174,114), (217,100,89), (140,70,70)">
+      <br>
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+    <h2>Ejercicio 4: Imágenes Dinámicas Vectoriales</h2>
+    <hr>
+    <p>Se ha añadido un módulo que aporta determinadas funciones para definir
+    formas muy concretas de forma aleatoria y toma un número de elementos aleatorio.
+    Podemos acceder a el archivo svg generado de a través del siguiente boton:</p>
+    <form action="/svg" class="pure-form">
+      <button type="submit" class="pure-button pure-button-primary">GO</button>
+    </form>
+  </article>
+  <article>
+    <h1 id="pr2">Práctica 3</h1>
+    <h2>Ejercicio 1: Templates jinja2</h2>
+    <hr>
+    <p>Aunque ya se habia añadido en la práctica 2 algunos templates jinja2 estos
+    se han refinado. La estructura de la aplicación web actual se generá a partir
+    de un archivo llamado layout.html que cubre el header y el footer de la web
+    y el contenido del body dependerá del enlace visitado.</p>
+    <h2>Ejercicio 2: Manejo de sesiones</h2>
+    <hr>
+    <p>Se ha creado un login sencillo haciendo uso de sesiones, este se encuentra
+    en la esquina superior derecha de la web y crea una sesión si es que la cuenta
+    seleccionada existe en el archivo de datos creado por la librería shelve del
+    siguiente apartado.</p>
+    <p>Además se ha añadido las funciones necesarias para que en la columna izquierda
+    de la aplicación se muestren los 10 últimos sitios a los que se accede dentro del
+    mismo sitio.</p>
+    <h2>Ejercicio 3: Persistencia simple</h2>
+    <hr>
+    <p>Se ha añadido la libreria shelve y distintos templates para gestionar
+    los formularios de registro, muestra y visualización de los datos del usuario.</p>
+    <h3>Registro</h3>
+    <form action="/singup" method="post" class="pure-form">
+      <fieldset>
+          <label for="username">Username</label>
+          <input name="username" placeholder="Username" required>
+
+          <label for="username">Email</label>
+          <input name="email" placeholder="Email" required>
+
+          <label for="password">Password</label>
+          <input type="password" name="password" placeholder="Password" required>
+
+          <button type="submit" class="pure-button pure-button-primary">Sign up</button>
+      </fieldset>
+    </form>
+  </article>
+  <article>
+    <h1 id="pr3">Práctica 4</h1>
+    <h2>Ejercicio 1: Diseño adaptable</h2>
+    <hr>
+    <p>Puesto que la práctica comenzó haciendo uso de el framework css Purecss,
+      se ha preferido seguir usando este framework para no tener que adaptarlo
+      todo de nuevo, aún asi se han producido grandes cambios en la organización
+      y en el diseño inicial de la web.</p>
+    <h2>Ejercicio 2: Persistencia compleja con MongoDB</h2>
+    <hr>
+    <p>En la barra del navegador se ha incluido una pestaña que carga un nuevo
+      template restaurantes encargado de realizar las búsquedas implementadas en
+      el archivo dbhandler.py.</p>
+    <p>Ese archivo es destinado a implementar todas las interacciones que tienen
+      lugar con la base de datos.</p>
+  </article>
+  <article>
+    <h1 id="pr4">Práctica 5</h1>
+    <h2>Ejercicio 1: Jquery</h2>
+    <hr>
+    <p>Se han implementado en el template index botones que permiten modificar ciertos
+    aspectos específicos de la web, como la paleta de colores, el tamaño y la fuente
+    del texto entre otros.</p>
+    <h2>Ejercicio 2: Ajax</h2>
+    <hr>
+    <p>Se ha implemetado un paginador usando Ajax en la web de restaurantes, debido
+    a que no se especifica nada en el guión de prácticas y frente a las opciones,
+    he optado por obtener los resultados de las queries completas y mostrarlas adecuadamente
+    usando jquery. Aunque también hubiese sido posible hacer una petición por página
+    esto sería en el caso de que hubiera muchos datos en la bd.</caption></p>
+  </article>
+{% endblock %}

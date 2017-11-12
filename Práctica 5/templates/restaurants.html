@@ -1,0 +1,197 @@
+{% extends "layout.html" %}
+{% block title %}Restaurantes{% endblock %}
+{% block body %}
+  <script>
+    var active = null;
+    var active_page = null;
+
+    function show_cuisine_form(){
+      active = "cuisine";
+      document.getElementById("cuisine").style.display = "block";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_name_form(){
+      active = "name";
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "block";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_postal_form(){
+      active = "zip";
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "block";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_address_form(){
+      active = "address";
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "block";
+      document.getElementById("borough").style.display = "none";
+    }
+
+    function show_borough_form(){
+      active = "borough";
+      document.getElementById("cuisine").style.display = "none";
+      document.getElementById("name").style.display = "none";
+      document.getElementById("postal").style.display = "none";
+      document.getElementById("address").style.display = "none";
+      document.getElementById("borough").style.display = "block";
+    }
+
+    window.onload = function(){
+      show_cuisine_form()
+    }
+
+    function page(number, n, m, total){
+      var total_pages = parseInt(total/10+1);
+      for (var i = 0; i <= total; i++) {
+        $("#page"+i).hide();
+      }
+      if (number <= 5){
+        for (var i = 1; i <= 10; i++) {
+          $("#page"+i).show();
+        }
+      } else if (number >= total_pages-5) {
+        for (var i = total_pages; i >= total_pages-10; i--) {
+          $("#page"+i).show();
+        }
+      } else {
+        for (var i = number-5; i <= number+4; i++) {
+          $("#page"+i).show();
+        }
+      }
+      for (var i = 0; i <= total; i++) {
+        $("#tr"+i).hide();
+      }
+      for (var i = n; i <= m; i++) {
+        $("#tr"+i).show();
+      }
+    }
+
+    function appendData(parsed_data, n){
+      var total_elements = 0;
+
+      $("#results *").remove();
+      $("#paginator *").remove();
+      $("#results").append("<tr><th>Nombre</th><th>Cocina</th><th>Dirección</th><th>Barrio</th></tr>")
+
+      $.each( parsed_data, function( i, row ) {
+        total_elements += 1;
+        $("#results").append("<tr id=tr"+ i +"></tr>");
+        $("#tr"+i).append( "<td>" + parsed_data[i].name + "</td>" );
+        $("#tr"+i).append( "<td>" + parsed_data[i].cuisine + "</td>" );
+        $("#tr"+i).append( "<td>" + parsed_data[i].street+ ", " + parsed_data[i].number + ", " + parsed_data[i].zip + "</td>" );
+        $("#tr"+i).append( "<td>" + parsed_data[i].borough + "</td>" );
+      });
+
+      var total_pages = total_elements/n;
+
+      for (var i = 0; i < total_pages; i++) {
+        var s = (i)*n;
+        var t = s+n-1;
+        var number = i+1;
+        $("#paginator").append("<button id=page"+ number +" class=pure-button onclick = page("+ number + "," + s + "," + t + ","+ total_elements +")>" + number + "</button>");
+      }
+
+      page(1, 0, 0+n-1, total_elements);
+    }
+
+    $(document).ready(function(){
+      $("#find_button").click(function(){
+        console.log("click");
+        if (active == "cuisine"){
+          $.get(document.URL+active, {cuisine: $("#cuisine_type").val()}).done(function(data) {
+            var parsed_data = $.parseJSON(data);
+            appendData(parsed_data, 10);
+          });
+        } else if (active == "name") {
+          $.get(document.URL+active, {name: $("#name_field").val()}).done(function(data) {
+            var parsed_data = $.parseJSON(data);
+            appendData(parsed_data, 10);
+          });
+        } else if (active == "borough") {
+          $.get(document.URL+active, {borough: $("#borough_field").val()}).done(function(data) {
+            var parsed_data = $.parseJSON(data);
+            appendData(parsed_data, 10);
+          });
+        } else if (active == "address") {
+          $.get(document.URL+active, {zip: $("#address_field1").val(), street: $("#address_field2").val(), number: $("#address_field3").val()}).done(function(data) {
+            var parsed_data = $.parseJSON(data);
+            appendData(parsed_data, 10);
+          });
+        } else if (active == "zip") {
+          $.get(document.URL+active, {zip: $("#postal_field").val()}).done(function(data) {
+            var parsed_data = $.parseJSON(data);
+            appendData(parsed_data, 10);
+          });
+        }
+      });
+    });
+  </script>
+
+
+  <article onload="show_cuisine_form()">
+    <h2>Consulta de restaurantes</h2>
+    <div class="button_find_panel">
+      <h3>Tipos de Búsquedas</h3>
+      <button class="pure-button pure-button-primary" onclick="show_cuisine_form()">Cocina</button>
+      <button class="pure-button pure-button-primary" onclick="show_borough_form()">Barrio</button>
+      <button class="pure-button pure-button-primary" onclick="show_name_form()">Nombre</button>
+      <button class="pure-button pure-button-primary" onclick="show_postal_form()">Código Postal</button>
+      <button class="pure-button pure-button-primary" onclick="show_address_form()">Dirección</button>
+    </div>
+
+    <div class="pure-form" id="cuisine">
+          <label for="cuisine">Busqueda por Cocina: </label>
+          <input id = "cuisine_type" name="cuisine" placeholder="Cocina">
+    </div>
+    <div class="pure-form" id="borough" action="/restaurants/borough">
+          <label for="borough">Busqueda por Barrio: </label>
+          <input id ="borough_field" name="borough" placeholder="Barrio">
+    </div>
+    <div class="pure-form" id="name">
+        <label for="name">Busqueda por Nombre: </label>
+        <input id = "name_field" name="name" placeholder="Nombre">
+    </div>
+    <div class="pure-form" id="postal" action="/restaurants/zip">
+        <label for="zip">Busqueda por Código Postal: </label>
+        <input id = "postal_field" name="zip" placeholder="ZIP">
+    </div>
+    <div class="pure-form" id="address" action="/restaurants/address">
+        <label for="address">Busqueda por Dirección</label>
+        <br>
+        <label for="zip">Código Postal:</label>
+        <input id = "address_field1" name="zip" placeholder="ZIP">
+        <br>
+        <label for="street">Calle:</label>
+        <input id = "address_field2" name="street" placeholder="Calle">
+        <br>
+        <label for="number">Número:</label>
+        <input id = "address_field3" name="number" placeholder="Número">
+        <br>
+    </div>
+    <button id = "find_button" class="pure-button pure-button-primary">Buscar</button>
+    <table id = "results" class="pure-table custom-table">
+      <tr>
+        <th>Nombre</th>
+        <th>Cocina</th>
+        <th>Dirección</th>
+        <th>Barrio</th>
+      </tr>
+    </table>
+    <div id="paginator">
+		</div>
+  </article>
+{% endblock %}
