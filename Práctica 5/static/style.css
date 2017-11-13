@@ -114,7 +114,7 @@ footer{
 @media screen and (max-width: 48em) {
 
     .heading-form {
-        margin: 0
+      margin: auto 4% auto auto;
     }
 
 	.custom-aside *{
