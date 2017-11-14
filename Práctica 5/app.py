@@ -111,38 +111,12 @@ def index():
 @app.route("/restaurants/")
 def restaurants():
     AddLink("/restaurants")
-    if "username" in session and "password" in session:
-        return render_template("restaurants.html", username = session["username"], historial = session["last_visited"])
+    historial = session["last_visited"]
+    if "username" in session:
+        username = session["username"]
+        return render_template("restaurants.html", username = username, historial = historial)
     else:
-        return render_template("restaurants.html", historial = session["last_visited"])
-'''
-@app.route("/restaurants/<find_type>")
-def restaurants_find(find_type):
-    AddLink("/restaurants")
-    page = request.args.get("p")
-    if find_type == "cuisine":
-        cuisine = request.args.get("cuisine")
-        cursor = RestaurantsHandler.find_restaurant("cuisine", cuisine)
-    elif find_type == "name":
-        name = request.args.get("name")
-        cursor = RestaurantsHandler.find_restaurant("name", name)
-    elif find_type == "borough":
-        borough = request.args.get("borough")
-        cursor = RestaurantsHandler.find_restaurant("borough", borough)
-    elif find_type == "zip":
-        zipcode = request.args.get("zip")
-        cursor = RestaurantsHandler.find_ZIPcode(zipcode)
-    elif find_type == "address":
-        street = request.args.get("street")
-        zipcode = request.args.get("zip")
-        number = request.args.get("number")
-        cursor = RestaurantsHandler.find_address(street, number, zipcode)
-
-    if "username" in session and "password" in session:
-        return render_template("restaurants.html", username = session["username"], historial = session["last_visited"], cursor = cursor)
-    else:
-        return render_template("restaurants.html", historial = session["last_visited"], cursor = cursor)
-'''
+        return render_template("restaurants.html", historial = historial)
 
 @app.route("/restaurants/<find_type>")
 def restaurants_find(find_type):
