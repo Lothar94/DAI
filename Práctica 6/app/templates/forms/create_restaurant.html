@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <section class="default_section">
+    <h1>Registra tu restaurante</h1>
+    <div class="pure-g side-text">
+      <div class="pure-u-1-2">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate sapien in elit mattis, sit amet eleifend dui sodales. Nam ac risus leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque quam mi, cursus id massa at, lobortis finibus diam. Nullam elementum nisl urna, ut mattis sem volutpat ac.</p>
+      </div>
+      <div class="pure-u-1-2">
+        <form class="pure-form" action="{% url 'create_restaurant' %}" method="post">
+          <fieldset>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="pure-button pure-button-primary" value="Enviar" />
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta name="Autor" content="Lothar Soto Palma">
+    <title>Restaurantes</title>
+  </head>
+  <body>
+    <script>
+      jQuery(document).ready(function ($) {
+        setInterval(function () {
+            moveRight();
+        }, 5000);
+
+        var slideCount = $('#slider ul li').length;
+        var slideWidth = $('#slider ul li').width();
+        var slideHeight = $('#slider ul li').height();
+        var sliderUlWidth = slideCount * slideWidth;
+
+        $('#slider').css({ width: slideWidth, height: slideHeight });
+
+        $('#slider ul li:last-child').prependTo('#slider ul');
+
+        function moveLeft() {
+            $('#slider ul').animate({
+                left: + slideWidth
+            }, 200, function () {
+                $('#slider ul li:last-child').prependTo('#slider ul');
+                $('#slider ul').css('left', '');
+            });
+        };
+
+        function moveRight() {
+            $('#slider ul').animate({
+                left: - slideWidth
+            }, 200, function () {
+                $('#slider ul li:first-child').appendTo('#slider ul');
+                $('#slider ul').css('left', '');
+            });
+        };
+
+        $('a.control_prev').click(function () {
+            moveLeft();
+        });
+
+        $('a.control_next').click(function () {
+            moveRight();
+        });
+      });
+    </script>
+    <header>
+      <div id="slider">
+        <a href="#" class="control_next">></a>
+        <a href="#" class="control_prev"><</a>
+        <ul>
+          <li><img id = "index_img" src="{% static 'img/restaurant1.jpg' %}"></li>
+          <li><img id = "index_img" src="{% static 'img/restaurant3.jpg' %}"></li>
+        </ul>
+      </div>
+      <nav id = "index_nav" class="pure-menu pure-menu-horizontal">
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">Inicio</a></li>
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Acerca</a></li>
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Buscar Restaurante</a></li>
+          <li class="pure-menu-item"><a href="{% url 'create_restaurant' %}" class="pure-menu-link">Registrar Restaurante</a></li>
+          <li class="pure-menu-item"><a href="{% url 'edit_restaurant' %}" class="pure-menu-link">Modificar Restaurante</a></li>
+        </ul>
+      </nav>
+      <div id="login">
+        <form class="pure-form pure-form-stacked">
+          <fieldset>
+            <label>Email</label>
+            <input type="email" placeholder="Email" name="email">
+            <label>Password</label>
+            <input type="password" placeholder="Password" name="password">
+            <button type="submit" class="pure-button pure-button-primary">Sing in</button>
+          </fieldset>
+        </form>
+      </div>
+    </header>
+    <section id="main_section">
+      <h1>Da a conocer tu restaurante hoy!</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate sapien in elit mattis, sit amet eleifend dui sodales. Nam ac risus leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque quam mi, cursus id massa at, lobortis finibus diam. Nullam elementum nisl urna, ut mattis sem volutpat ac. Ut ac libero sed sem hendrerit efficitur non ac tortor. Cras fermentum nec purus ut vehicula. Nunc feugiat sodales consectetur. Praesent non nibh ligula. Nam semper commodo vestibulum. Proin cursus urna a ultricies elementum. Suspendisse at sapien ut erat facilisis consectetur. Phasellus in pellentesque nisl. Aenean feugiat urna ut massa semper dictum. Phasellus posuere, turpis sit amet pulvinar maximus, ipsum justo imperdiet dolor, non varius dui tellus sed massa. </p>
+    </section>
+    <section id="list_section">
+      <h1>Lista de restaurantes que actualmente usan nuestro servicio</h1>
+      <table class="pure-table">
+        <tr>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Barrio</th>
+          <th>Dirección</th>
+        </tr>
+        {% for restaurant in restaurants %}
+        <tr>
+          <td>{{ restaurant.name }}</td>
+          <td>{{ restaurant.cuisine }}</td>
+          <td>{{ restaurant.borough }}</td>
+          <td>{{ restaurant.address.street }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </section>
+    <footer class="pure-g">
+      <div class="pure-u-1-2">Lothar Soto Palma</div>
+      <div class="pure-u-1-2">Social links</div>
+    </footer>
+  </body>
+</html>

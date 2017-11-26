@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta name="Autor" content="Lothar Soto Palma">
+    <title>Restaurantes {% block title%}{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <div id = "overflow-bar">
+        <img id = "index_img" src="{% static 'img/restaurant1.jpg' %}">
+      </div>
+      <nav id = "index_nav" class="pure-menu pure-menu-horizontal">
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">Inicio</a></li>
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Acerca</a></li>
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Buscar Restaurante</a></li>
+          <li class="pure-menu-item"><a href="{% url 'create_restaurant' %}" class="pure-menu-link">Registrar Restaurante</a></li>
+          <li class="pure-menu-item"><a href="{% url 'edit_restaurant' %}" class="pure-menu-link">Modificar Restaurante</a></li>
+        </ul>
+      </nav>
+      <div id="login">
+        <form class="pure-form pure-form-stacked">
+          <fieldset>
+            <label>Email</label>
+            <input type="email" placeholder="Email" name="email">
+            <label>Password</label>
+            <input type="password" placeholder="Password" name="password">
+            <button type="submit" class="pure-button pure-button-primary">Sing in</button>
+          </fieldset>
+        </form>
+      </div>
+    </header>
+    {% block body %}
+    {% endblock %}
+    <footer class="pure-g">
+      <div class="pure-u-1-2">Lothar Soto Palma</div>
+      <div class="pure-u-1-2">Social links</div>
+    </footer>
+  </body>
+</html>
