@@ -18,6 +18,30 @@ class RestaurantForm(forms.Form):
         })
     )
 
+    street = forms.CharField(
+        label='Calle',
+        max_length=60,
+        strip=True,
+        widget=forms.TextInput(
+            attrs={ 'size':30,
+                    'placeholder':'Calle',
+        })
+    )
+
+    building = forms.IntegerField(
+        label='Número'
+    )
+
+    borough = forms.CharField(
+        label='Barrio',
+        max_length=60,
+        strip=True,
+        widget=forms.TextInput(
+            attrs={ 'size':30,
+                    'placeholder':'Barrio',
+        })
+    )
+
     cuisine = forms.CharField(
         label='Tipo',
         max_length=80,
@@ -30,8 +54,5 @@ class RestaurantForm(forms.Form):
 
     zipcode = forms.IntegerField(
         label='Código Postal',
-        validators=[validate_postal_code],
-        widget=forms.TextInput(
-            attrs={ 'size':30,
-        })
+        validators=[validate_postal_code]
     )

@@ -1,6 +1,6 @@
 # restaurantes/views.py
 
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 
 from .forms import RestaurantForm
 from .models import restaurants
@@ -25,7 +25,7 @@ def edit_restaurant(request):
     if request.method == "POST":
             form = RestaurantForm(request.POST)
             if form.is_valid():                   # se pasan los validadores
-                datos = form.cleaned_data
+                data = form.cleaned_data
                 return redirect('/restaurantes')
     else:
         form = RestaurantForm()
@@ -39,7 +39,23 @@ def create_restaurant(request):
     if request.method == "POST":
             form = RestaurantForm(request.POST)
             if form.is_valid():                   # se pasan los validadores
-                datos = form.cleaned_data
+                data = form.cleaned_data
+                print(data)
+                restaurants.restaurants.insert_one(
+                    {
+                        "address": {
+                            "street": data["street"],
+                            "zipcode": data["zipcode"],
+                            "building": data["building"],
+                            "coord": [0,0]
+                        },
+                        "borough": data["borough"],
+                        "cuisine": data["cuisine"],
+                        "grades": [],
+                        "name": data["name"],
+                        "restaurant_id": ""
+                    }
+                )
                 return redirect('/restaurantes')
     else:
         form = RestaurantForm()
