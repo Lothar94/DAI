@@ -175,9 +175,24 @@ a.control_next {
   text-align: center;
 }
 
+.side-text div h2 {
+  color: #ef6461;
+  font-family: 'Montserrat', sans-serif;
+  margin: 3%;
+}
+
 .side-text div p {
   font-family: 'Montserrat', sans-serif;
   margin: 3%;
+}
+
+.side-text div table {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0 auto;
+}
+
+.pagination {
+  margin: 2%;
 }
 
 footer {

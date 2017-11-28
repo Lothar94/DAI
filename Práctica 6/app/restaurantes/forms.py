@@ -56,3 +56,62 @@ class RestaurantForm(forms.Form):
         label='Código Postal',
         validators=[validate_postal_code]
     )
+
+class RestaurantEditForm(forms.Form):
+    restaurant_id = forms.IntegerField(
+        label='Id',
+        widget=forms.TextInput(
+            attrs={ 'size': 30,
+                    'id': 'restaurant_id',
+                    'placeholder':'Id',
+        })
+    )
+
+    name = forms.CharField(
+        label='Nombre',
+        max_length=60,
+        strip=True,
+        widget=forms.TextInput(
+            attrs={ 'size':30,
+                    'placeholder':'Nombre',
+        })
+    )
+
+    street = forms.CharField(
+        label='Calle',
+        max_length=60,
+        strip=True,
+        widget=forms.TextInput(
+            attrs={ 'size':30,
+                    'placeholder':'Calle',
+        })
+    )
+
+    building = forms.IntegerField(
+        label='Número'
+    )
+
+    borough = forms.CharField(
+        label='Barrio',
+        max_length=60,
+        strip=True,
+        widget=forms.TextInput(
+            attrs={ 'size':30,
+                    'placeholder':'Barrio',
+        })
+    )
+
+    cuisine = forms.CharField(
+        label='Tipo',
+        max_length=80,
+        required=False,
+        widget=forms.TextInput(
+            attrs={ 'size':30,
+                    'placeholder':'Mejicana',
+        })
+    )
+
+    zipcode = forms.IntegerField(
+        label='Código Postal',
+        validators=[validate_postal_code]
+    )
