@@ -54,7 +54,7 @@
       </div>
       <div class="pure-u-1-2">
         <h2>Datos</h2>
-        <form class="pure-form" action="{% url 'create_restaurant' %}" method="post">
+        <form class="pure-form" action="{% url 'edit_restaurant' %}" method="post">
           <fieldset>
             {% csrf_token %}
             {{ form.as_p }}

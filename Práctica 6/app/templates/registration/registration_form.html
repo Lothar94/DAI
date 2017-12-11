@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block body %}
+<section class="default_section">
+  <h1>Register Here</h1>
+  <form class="pure-form" method="post" action=".">
+    <fieldset>
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <input type="submit" value="Submit" />
+    </fieldset>
+  </form>
+</section>
+{% endblock %}

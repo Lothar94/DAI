@@ -1,0 +1,169 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <script>
+  var page;
+
+  function appendData(parsed_data, n){
+    $("#results *").remove();
+    $("#results").append("<tr><th>Nombre</th><th>Tipo</th><th>Código postal</th><th>Barrio</th></tr>")
+
+    $.each( parsed_data, function( i, row ) {
+      $("#results").append("<tr id=tr"+ i +"></tr>");
+      $("#tr"+i).append( "<td>" + parsed_data[i].name + "</td>" );
+      $("#tr"+i).append( "<td>" + parsed_data[i].cuisine + "</td>" );
+      $("#tr"+i).append( "<td>" + parsed_data[i].zip + "</td>" );
+      $("#tr"+i).append( "<td>" + parsed_data[i].borough + "</td>" );
+    });
+  }
+
+  $('document').ready(function(){
+
+    $('label[for=id_cuisine]').show();
+    $('#id_cuisine').show();
+    $('label[for=id_borough]').hide();
+    $('#id_borough').hide();
+    $('label[for=id_zipcode]').hide();
+    $('#id_zipcode').hide();
+    $('label[for=id_name]').hide();
+    $('#id_name').hide();
+
+    $('#find_button').click(function(){
+      if ($('#id_field').val() == 'Name'){
+        $.get(document.URL+"name/"+$("#id_name").val()).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Cuisine') {
+        $.get(document.URL+"cuisine/"+$("#id_cuisine").val()).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Borough') {
+        $.get(document.URL+"borough/"+$("#id_borough").val()).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Zip') {
+        $.get(document.URL+"zip/"+$("#id_zipcode").val()).done(function(data) {
+          appendData(data);
+        });
+      }
+      page = 1;
+    });
+
+    $('#next').click(function(){
+      page += 1;
+      if ($('#id_field').val() == 'Name'){
+        $.get(document.URL+"name/"+$("#id_name").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Cuisine') {
+        $.get(document.URL+"cuisine/"+$("#id_cuisine").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Borough') {
+        $.get(document.URL+"borough/"+$("#id_borough").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Zip') {
+        $.get(document.URL+"zip/"+$("#id_zipcode").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      }
+    });
+
+    $('#previous').click(function(){
+      page -= 1;
+      if (page < 1){
+        page = 1;
+      }
+      if ($('#id_field').val() == 'Name'){
+        $.get(document.URL+"name/"+$("#id_name").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Cuisine') {
+        $.get(document.URL+"cuisine/"+$("#id_cuisine").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Borough') {
+        $.get(document.URL+"borough/"+$("#id_borough").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      } else if ($('#id_field').val() == 'Zip') {
+        $.get(document.URL+"zip/"+$("#id_zipcode").val()+"?page="+page).done(function(data) {
+          appendData(data);
+        });
+      }
+    });
+
+    $('#id_field').change(function(){
+      if ($(this).val() == 'Name'){
+        $('label[for=id_cuisine]').hide();
+        $('#id_cuisine').hide();
+        $('label[for=id_borough]').hide();
+        $('#id_borough').hide();
+        $('label[for=id_zipcode]').hide();
+        $('#id_zipcode').hide();
+        $('label[for=id_name]').show();
+        $('#id_name').show();
+      } else if ($(this).val() == 'Cuisine') {
+        $('label[for=id_cuisine]').show();
+        $('#id_cuisine').show();
+        $('label[for=id_borough]').hide();
+        $('#id_borough').hide();
+        $('label[for=id_zipcode]').hide();
+        $('#id_zipcode').hide();
+        $('label[for=id_name]').hide();
+        $('#id_name').hide();
+      } else if ($(this).val() == 'Borough') {
+        $('label[for=id_cuisine]').hide();
+        $('#id_cuisine').hide();
+        $('label[for=id_borough]').show();
+        $('#id_borough').show();
+        $('label[for=id_zipcode]').hide();
+        $('#id_zipcode').hide();
+        $('label[for=id_name]').hide();
+        $('#id_name').hide();
+      } else if ($(this).val() == 'Zip') {
+        $('label[for=id_cuisine]').hide();
+        $('#id_cuisine').hide();
+        $('label[for=id_borough]').hide();
+        $('#id_borough').hide();
+        $('label[for=id_zipcode]').show();
+        $('#id_zipcode').show();
+        $('label[for=id_name]').hide();
+        $('#id_name').hide();
+      }
+    });
+  });
+  </script>
+  <section class="default_section">
+    <h1>Busca tu restaurante</h1>
+    <div class="pure-g side-text">
+      <div class="pure-u-1-2">
+        <h2>Selecciona el Restaurante</h2>
+        <table id="results" class="pure-table">
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Código Postal</th>
+            <th>Barrio</th>
+          </tr>
+        </table>
+        <div class="pagination">
+          <span class="step-links">
+                  <button class="pure-button pure-button-primary" id="previous">previous</button>
+                  <button class="pure-button pure-button-primary" id="next">next</button>
+          </span>
+        </div>
+      </div>
+      <div class="pure-u-1-2">
+        <h2>Datos</h2>
+        <div class="pure-form">
+          <fieldset>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button id="find_button" class="pure-button pure-button-primary">Buscar</button>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
