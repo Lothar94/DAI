@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block body %}
+<section class="default_section">
+  <h1>{{ restaurant.name }}</h1>
+  <table style="margin: 0 auto;" class="pure-table">
+    <tr><td><strong>Nombre:</strong></td><td>{{ restaurant.name }}</td></tr>
+    <tr><td><strong>Barrio:</strong></td><td>{{ restaurant.borough }}</td></tr>
+    <tr><td><strong>Direccion:</strong></td><td>{{ restaurant.address.street }}, {{ restaurant.address.building }}, {{ restaurant.address.zipcode }}</td></tr>
+    <tr><td><strong>Coordenadas:</strong></td><td>{{ restaurant.address.coord }}</td></tr>
+    <tr><td><strong>Tipo de cocina:</strong></td><td>{{ restaurant.cuisine }}</td></tr>
+    <tr><td><strong>Id:</strong></td><td>{{ restaurant.restaurant_id }}</td></tr>
+  </table>
+
+  <div id="map"></div>
+   <script>
+     function initMap() {
+       var uluru = {lat: parseFloat({{ restaurant.address.coord.1 }}), lng: parseFloat({{ restaurant.address.coord.0 }})};
+       var map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 15,
+         center: uluru
+       });
+       var marker = new google.maps.Marker({
+         position: uluru,
+         map: map
+       });
+     }
+   </script>
+   <script async defer
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBACgOBNkIbBd12M6r9bA0j8O-S8FOUv1M&callback=initMap">
+   </script>
+
+</section>
+{% endblock %}

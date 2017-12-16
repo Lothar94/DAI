@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <meta name="Autor" content="Lothar Soto Palma">
     <title>Restaurantes {% block title%}{% endblock %}</title>
   </head>
@@ -20,22 +22,24 @@
       <nav id = "index_nav" class="pure-menu pure-menu-horizontal">
         <ul class="pure-menu-list">
           <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">Inicio</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Acerca</a></li>
+          <li class="pure-menu-item"><a href="{% url 'stadistics' %}" class="pure-menu-link">Información</a></li>
           <li class="pure-menu-item"><a href="{% url 'find_restaurant_view' %}" class="pure-menu-link">Buscar Restaurante</a></li>
-          <li class="pure-menu-item"><a href="{% url 'create_restaurant' %}" class="pure-menu-link">Registrar Restaurante</a></li>
-          <li class="pure-menu-item"><a href="{% url 'edit_restaurant' %}" class="pure-menu-link">Modificar Restaurante</a></li>
+          {% if user.is_authenticated %}
+            <li class="pure-menu-item"><a href="{% url 'create_restaurant' %}" class="pure-menu-link">Registrar Restaurante</a></li>
+            <li class="pure-menu-item"><a href="{% url 'edit_restaurant' %}" class="pure-menu-link">Modificar Restaurante</a></li>
+          {% endif %}
         </ul>
       </nav>
       <div id="login">
-        <form class="pure-form pure-form-stacked">
-          <fieldset>
-            <label>Email</label>
-            <input type="email" placeholder="Email" name="email">
-            <label>Password</label>
-            <input type="password" placeholder="Password" name="password">
-            <button type="submit" class="pure-button pure-button-primary">Sing in</button>
-          </fieldset>
-        </form>
+        {% if user.is_authenticated %}
+          <h3>Bienvenido {{ user.username }}</h3>
+          <a href="{% url 'auth_logout' %}" style="margin: 10% 0;" class="pure-button pure-button-primary pure-menu-link">Logout</a>
+          <a href="{% url 'change_password' %}" style="margin: 10% 0;" class="pure-button pure-button-primary pure-menu-link">Cambiar password</a>
+        {% else %}
+          <h3>Bienvenido</h3>
+          <a href="{% url 'auth_login' %}" style="margin: 10% 0;" class="pure-button pure-button-primary pure-menu-link">Login</a>
+          <a href="{% url 'registration_register' %}" style="margin: 10% 0;" class="pure-button pure-button-primary pure-menu-link">Register</a>
+        {% endif %}
       </div>
     </header>
     {% block body %}

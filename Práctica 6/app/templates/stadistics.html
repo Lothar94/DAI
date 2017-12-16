@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+
+
+<section class="default_section">
+  <h1>Estadísticas</h1>
+
+  <div id="container" style="height: 400px; max-width: 100%; margin: 0 auto"></div>
+  <div id="container2" style="height: 400px; width: 100%, margin: 0 auto"></div>
+
+  <script>
+    function escapeRegExp(string){
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function replaceAll(str, term, replacement) {
+      return str.replace(new RegExp(escapeRegExp(term), 'g'), replacement);
+    }
+
+    $.get(document.URL+"get", function(data) {
+      var chart_data = [];
+      var histogram_data = [];
+      $.each(data, function(i, item) {
+        chart_data.push({name: i, y: item})
+        histogram_data.push([i,item])
+      });
+
+      Highcharts.chart('container', {
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie'
+          },
+          title: {
+              text: 'Diagrama de sectores: Tipos de cocina de los restaurantes'
+          },
+          tooltip: {
+              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          plotOptions: {
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: true,
+                      format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                      style: {
+                          color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                      }
+                  }
+              }
+          },
+          series: [{
+              name: 'Tipos de cocina',
+              colorByPoint: true,
+              data: chart_data
+          }]
+      });
+
+      Highcharts.chart('container2', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Tipos de cocina'
+          },
+          xAxis: {
+              type: 'category',
+              labels: {
+                  rotation: -45,
+                  style: {
+                      fontSize: '13px',
+                      fontFamily: 'Verdana, sans-serif'
+                  }
+              }
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Cantidad de restaurantes'
+              }
+          },
+          legend: {
+              enabled: false
+          },
+          tooltip: {
+              pointFormat: 'Tipos de cocina'
+          },
+          series: [{
+              name: 'Tipos de cocina',
+              data: histogram_data,
+              dataLabels: {
+                  enabled: true,
+                  rotation: -90,
+                  color: '#FFFFFF',
+                  align: 'right',
+                  format: '{point.y:.1f}', // one decimal
+                  y: 10, // 10 pixels down from the top
+                  style: {
+                      fontSize: '13px',
+                      fontFamily: 'Verdana, sans-serif'
+                  }
+              }
+          }]
+      });
+    });
+</script>
+</section>
+{% endblock %}

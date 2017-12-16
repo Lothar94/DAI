@@ -5,10 +5,11 @@
 
   function appendData(parsed_data, n){
     $("#results *").remove();
-    $("#results").append("<tr><th>Nombre</th><th>Tipo</th><th>Código postal</th><th>Barrio</th></tr>")
+    $("#results").append("<tr><th>Id</th><th>Nombre</th><th>Tipo</th><th>Código postal</th><th>Barrio</th></tr>")
 
     $.each( parsed_data, function( i, row ) {
-      $("#results").append("<tr id=tr"+ i +"></tr>");
+      $("#results").append("<tr class=row id=tr"+ i +"></tr>");
+      $("#tr"+i).append( "<td><a href=/restaurantes/find/detail/"+parsed_data[i].id+">" + parsed_data[i].id + "</a></td>" );
       $("#tr"+i).append( "<td>" + parsed_data[i].name + "</td>" );
       $("#tr"+i).append( "<td>" + parsed_data[i].cuisine + "</td>" );
       $("#tr"+i).append( "<td>" + parsed_data[i].zip + "</td>" );
@@ -29,19 +30,19 @@
 
     $('#find_button').click(function(){
       if ($('#id_field').val() == 'Name'){
-        $.get(document.URL+"name/"+$("#id_name").val()).done(function(data) {
+        $.post(document.URL+"name", {'name': $("#id_name").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Cuisine') {
-        $.get(document.URL+"cuisine/"+$("#id_cuisine").val()).done(function(data) {
+        $.post(document.URL+"cuisine", {'cuisine': $("#id_cuisine").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Borough') {
-        $.get(document.URL+"borough/"+$("#id_borough").val()).done(function(data) {
+        $.post(document.URL+"borough", {'borough': $("#id_borough").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Zip') {
-        $.get(document.URL+"zip/"+$("#id_zipcode").val()).done(function(data) {
+        $.post(document.URL+"zip", {'zip': $("#id_zipcode").val()}).done(function(data) {
           appendData(data);
         });
       }
@@ -51,19 +52,19 @@
     $('#next').click(function(){
       page += 1;
       if ($('#id_field').val() == 'Name'){
-        $.get(document.URL+"name/"+$("#id_name").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"name?page="+page, {'name': $("#id_name").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Cuisine') {
-        $.get(document.URL+"cuisine/"+$("#id_cuisine").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"cuisine?page="+page, {'cuisine': $("#id_cuisine").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Borough') {
-        $.get(document.URL+"borough/"+$("#id_borough").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"borough?page="+page, {'borough': $("#id_borough").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Zip') {
-        $.get(document.URL+"zip/"+$("#id_zipcode").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"zip?page="+page, {'zip': $("#id_zipcode").val()}).done(function(data) {
           appendData(data);
         });
       }
@@ -75,19 +76,19 @@
         page = 1;
       }
       if ($('#id_field').val() == 'Name'){
-        $.get(document.URL+"name/"+$("#id_name").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"name?page="+page, {'name': $("#id_name").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Cuisine') {
-        $.get(document.URL+"cuisine/"+$("#id_cuisine").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"cuisine?page="+page, {'cuisine': $("#id_cuisine").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Borough') {
-        $.get(document.URL+"borough/"+$("#id_borough").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"borough?page="+page, {'borough': $("#id_borough").val()}).done(function(data) {
           appendData(data);
         });
       } else if ($('#id_field').val() == 'Zip') {
-        $.get(document.URL+"zip/"+$("#id_zipcode").val()+"?page="+page).done(function(data) {
+        $.post(document.URL+"zip?page="+page, {'zip': $("#id_zipcode").val()}).done(function(data) {
           appendData(data);
         });
       }
@@ -141,10 +142,7 @@
         <h2>Selecciona el Restaurante</h2>
         <table id="results" class="pure-table">
           <tr>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Código Postal</th>
-            <th>Barrio</th>
+            <tr><th>Id</th><th>Nombre</th><th>Tipo</th><th>Código postal</th><th>Barrio</th></tr>
           </tr>
         </table>
         <div class="pagination">
