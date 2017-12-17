@@ -166,10 +166,11 @@ def stadistics(request):
     types = {}
 
     for doc in cursor:
-        if doc["cuisine"] not in list(types.keys()):
-            types[doc["cuisine"]] = 1
-        else:
-            types[doc["cuisine"]] += 1
+        if 'cuisine' in doc:
+            if doc["cuisine"] not in list(types.keys()):
+                types[doc["cuisine"]] = 1
+            else:
+                types[doc["cuisine"]] += 1
 
     return HttpResponse(json.dumps(types), content_type="application/json")
 
