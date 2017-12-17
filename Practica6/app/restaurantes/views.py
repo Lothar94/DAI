@@ -33,19 +33,15 @@ def test_template(request):
 def find_restaurant(request, type):
     if type == "cuisine":
         data = request.POST.get('cuisine', '')
-        print(data)
         cursor = restaurants.find({"cuisine": data})
     elif type == "name":
         data = request.POST.get('name', '')
-        print(data)
         cursor = restaurants.find({"name": data})
     elif type == "borough":
         data = request.POST.get('borough', '')
-        print(data)
         cursor = restaurants.find({"borough": data})
     elif type == "zip":
         data = request.POST.get('zip', '')
-        print(data)
 
         cursor = restaurants.find({"address.zipcode": data})
 
@@ -99,8 +95,20 @@ def edit_restaurant(request):
             if form.is_valid():                   # se pasan los validadores
                 data = form.cleaned_data
 
-                print(data)
-                restaurants.update_one({ "restaurant_id": data["restaurant_id"] }, {'$set': { "name": data["name"] }}, upsert=True)
+                restaurants.find_and_modify(
+                    query={ "restaurant_id": data["restaurant_id"] },
+                    update={"$set": {
+                        "address": {
+                            "street": data["street"],
+                            "zipcode": data["zipcode"],
+                            "building": data["building"],
+                            "coord": [0,0]
+                        },
+                        "borough": data["borough"],
+                        "cuisine": data["cuisine"],
+                        "grades": [],
+                        "name": data["name"],
+                    }})
 
                 return redirect('/restaurantes/edit')
     else:
@@ -118,7 +126,6 @@ def create_restaurant(request):
             form = RestaurantForm(request.POST)
             if form.is_valid():                   # se pasan los validadores
                 data = form.cleaned_data
-                print(data)
                 restaurants.insert_one(
                     {
                         "address": {
